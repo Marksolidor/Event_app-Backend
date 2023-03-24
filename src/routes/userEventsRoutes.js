@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../database");
+const pool = require("../database/db");
 const { validarToken } = require("../middlewares/authentication");
 
 // Agregar un usuario a un evento

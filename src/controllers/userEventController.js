@@ -1,4 +1,4 @@
-const UserEvent = require("../models/user_event");
+const UserEvent = require("../models/userEventModels");
 
 const crearUserEvent = async (req, res) => {
   const { id_usuario, id_evento } = req.body;

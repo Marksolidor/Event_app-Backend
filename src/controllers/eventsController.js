@@ -1,95 +1,60 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const Usuario = require("../models/usuario");
+const Evento = require("../models/eventsModels");
 
-const crearUsuario = async (req, res) => {
+// Obtener todos los eventos
+const obtenerEventos = async (req, res) => {
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const usuario = new Usuario({
-      nombre: req.body.nombre,
-      apellido: req.body.apellido,
-      email: req.body.email,
-      password: hashedPassword,
-      rol: req.body.rol,
-      rut: req.body.rut,
-      nickname: req.body.nickname,
-    });
-    await usuario.save();
-    res.status(201).json(usuario);
-  } catch (err) {
-    res.status(400).json({ mensaje: err.message });
-  }
-};
-
-const loginUsuario = async (req, res) => {
-  try {
-    const usuario = await Usuario.findOne({ email: req.body.email });
-    if (!usuario) {
-      return res.status(401).json({ mensaje: "Email o contraseña inválidos" });
-    }
-    const isPasswordValid = await bcrypt.compare(
-      req.body.password,
-      usuario.password
-    );
-    if (!isPasswordValid) {
-      return res.status(401).json({ mensaje: "Email o contraseña inválidos" });
-    }
-    const token = jwt.sign({ id: usuario._id }, process.env.JWT_SECRET);
-    res.status(200).json({ token });
-  } catch (err) {
-    res.status(400).json({ mensaje: err.message });
-  }
-};
-
-const obtenerUsuarios = async (req, res) => {
-  try {
-    const usuarios = await Usuario.find();
-    res.json(usuarios);
+    const eventos = await Evento.find();
+    res.json(eventos);
   } catch (err) {
     res.status(500).json({ mensaje: err.message });
   }
 };
 
-const obtenerUsuarioPorId = async (req, res) => {
-  try {
-    res.json(res.usuario);
-  } catch (err) {
-    res.status(500).json({ mensaje: err.message });
+// Obtener un evento por su id
+const obtenerEvento = async (req, res, next) => {
+  const evento = await getEvento(req.params.id);
+  if (evento == null) {
+    return res.status(404).json({ mensaje: "Evento no encontrado" });
   }
+  res.evento = evento;
+  next();
 };
 
-const actualizarUsuario = async (req, res) => {
+// Crear un nuevo evento
+const crearEvento = async (req, res) => {
+  const evento = new Evento(req.body);
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const usuario = res.usuario;
-    usuario.nombre = req.body.nombre;
-    usuario.apellido = req.body.apellido;
-    usuario.email = req.body.email;
-    usuario.password = hashedPassword;
-    usuario.rol = req.body.rol;
-    usuario.rut = req.body.rut;
-    usuario.nickname = req.body.nickname;
-    await usuario.save();
-    res.json(usuario);
+    const nuevoEvento = await evento.save();
+    res.status(201).json(nuevoEvento);
   } catch (err) {
     res.status(400).json({ mensaje: err.message });
   }
 };
 
-const eliminarUsuario = async (req, res) => {
+// Actualizar un evento existente
+const actualizarEvento = async (req, res) => {
   try {
-    await res.usuario.remove();
-    res.json({ mensaje: "Usuario eliminado" });
+    const eventoActualizado = await res.evento.set(req.body).save();
+    res.json(eventoActualizado);
+  } catch (err) {
+    res.status(400).json({ mensaje: err.message });
+  }
+};
+
+// Eliminar un evento
+const eliminarEvento = async (req, res) => {
+  try {
+    await res.evento.remove();
+    res.json({ mensaje: "Evento eliminado" });
   } catch (err) {
     res.status(500).json({ mensaje: err.message });
   }
 };
 
 module.exports = {
-  crearUsuario,
-  loginUsuario,
-  obtenerUsuarios,
-  obtenerUsuarioPorId,
-  actualizarUsuario,
-  eliminarUsuario,
+  obtenerEventos,
+  obtenerEvento,
+  crearEvento,
+  actualizarEvento,
+  eliminarEvento,
 };
