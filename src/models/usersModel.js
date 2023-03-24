@@ -28,8 +28,6 @@ const agregarUsuario = async (usuario) => {
 // Actualizar un usuario por su id
 const bcrypt = require("bcrypt");
 
-const pool = require("../config/database");
-
 const createUser = async (usuario) => {
   const { nombre, apellido, email, password, rol, rut, nickname } = usuario;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -59,4 +57,7 @@ const findUserByEmail = async (email) => {
 module.exports = {
   createUser,
   findUserByEmail,
+  getUsuarioById,
+  getUsuarios,
+  agregarUsuario,
 };

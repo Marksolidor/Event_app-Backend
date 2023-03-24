@@ -1,4 +1,4 @@
-const Comentario = require("../models/comentarios");
+const Comentario = require("../models/commentsModel");
 
 const crearComentario = async (req, res) => {
   const { id_usuario, id_evento, comentario } = req.body;

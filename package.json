@@ -9,11 +9,15 @@
   "author": "los bkns",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
+    "csb-inspector": "^0.3.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
+    "morgan-body": "^2.6.8",
     "pg": "^8.10.0",
-    "pg-format": "^1.0.4"
+    "pg-format": "^1.0.4",
+    "sequelize": "^6.29.3"
   }
 }

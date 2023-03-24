@@ -1,7 +1,7 @@
 const { Model } = require("sequelize");
 const sequelize = require("../database/db");
-const User = require("./userModel");
-const Evento = require("./eventModel");
+const User = require("./usersModel");
+const Evento = require("./eventsModel");
 
 class User_Event extends Model {}
 
