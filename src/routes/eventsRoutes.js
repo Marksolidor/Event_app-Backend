@@ -1,9 +1,25 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const Evento = require("../models/eventsModels");
+const Evento = require('../models/eventsModels');
+
+async function getEvento(req, res, next) {
+  let evento;
+  try {
+    evento = await Evento.findById(req.params.id);
+    if (evento == null) {
+      return res.status(404).json({ message: 'Evento no encontrado' });
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+
+  res.evento = evento;
+  next();
+}
 
 // Obtener todos los eventos
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
+  console.log('entreeeeeee');
   try {
     const eventos = await Evento.find();
     res.json(eventos);
@@ -13,12 +29,12 @@ router.get("/", async (req, res) => {
 });
 
 // Obtener un evento en particular
-router.get("/:id", getEvento, (req, res) => {
+router.get('/:id', getEvento, (req, res) => {
   res.json(res.evento);
 });
 
 // Crear un evento
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
   const evento = new Evento({
     nombre_evento: req.body.nombre_evento,
     fecha: req.body.fecha,
@@ -43,7 +59,7 @@ router.post("/", async (req, res) => {
 });
 
 // Actualizar un evento
-router.patch("/:id", getEvento, async (req, res) => {
+router.patch('/:id', getEvento, async (req, res) => {
   if (req.body.nombre_evento != null) {
     res.evento.nombre_evento = req.body.nombre_evento;
   }
@@ -89,10 +105,10 @@ router.patch("/:id", getEvento, async (req, res) => {
 });
 
 // Eliminar un evento
-router.delete("/:id", getEvento, async (req, res) => {
+router.delete('/:id', getEvento, async (req, res) => {
   try {
     await res.evento.remove();
-    res.json({ message: "Evento eliminado" });
+    res.json({ message: 'Evento eliminado' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

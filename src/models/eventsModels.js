@@ -1,12 +1,4 @@
-const { Pool } = require("pg");
-
-const pool = new Pool({
-  user: "your_username",
-  host: "your_host",
-  database: "your_database",
-  password: "your_password",
-  port: "your_port",
-});
+const pool = require('../database/db');
 
 const eventModel = {};
 
@@ -14,7 +6,7 @@ const eventModel = {};
 eventModel.getEventos = async () => {
   const client = await pool.connect();
   try {
-    const { rows } = await client.query("SELECT * FROM events");
+    const { rows } = await client.query('SELECT * FROM events');
     return rows;
   } finally {
     client.release();
@@ -25,7 +17,7 @@ eventModel.getEventos = async () => {
 eventModel.getEventoById = async (id) => {
   const client = await pool.connect();
   try {
-    const { rows } = await client.query("SELECT * FROM events WHERE id=$1", [
+    const { rows } = await client.query('SELECT * FROM events WHERE id=$1', [
       id,
     ]);
     if (rows.length === 0) {
@@ -42,8 +34,8 @@ eventModel.createEvento = async (evento) => {
   const client = await pool.connect();
   try {
     const { rows } = await client.query(
-      "INSERT INTO events (titulo, descripcion, fecha) VALUES ($1, $2, $3) RETURNING *",
-      [evento.titulo, evento.descripcion, evento.fecha]
+      'INSERT INTO events (titulo, descripcion, fecha) VALUES ($1, $2, $3) RETURNING *',
+      [evento.titulo, evento.descripcion, evento.fecha],
     );
     return rows[0];
   } finally {
@@ -56,8 +48,8 @@ eventModel.updateEvento = async (id, evento) => {
   const client = await pool.connect();
   try {
     const { rows } = await client.query(
-      "UPDATE events SET titulo=$1, descripcion=$2, fecha=$3 WHERE id=$4 RETURNING *",
-      [evento.titulo, evento.descripcion, evento.fecha, id]
+      'UPDATE events SET titulo=$1, descripcion=$2, fecha=$3 WHERE id=$4 RETURNING *',
+      [evento.titulo, evento.descripcion, evento.fecha, id],
     );
     if (rows.length === 0) {
       return null;
@@ -73,8 +65,8 @@ eventModel.deleteEvento = async (id) => {
   const client = await pool.connect();
   try {
     const { rows } = await client.query(
-      "DELETE FROM events WHERE id=$1 RETURNING *",
-      [id]
+      'DELETE FROM events WHERE id=$1 RETURNING *',
+      [id],
     );
     if (rows.length === 0) {
       return null;

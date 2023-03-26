@@ -1,3 +1,4 @@
+const { getEventos } = require("../models/eventsModels");
 const Evento = require("../models/eventsModels");
 
 // Obtener todos los eventos
@@ -12,7 +13,7 @@ const obtenerEventos = async (req, res) => {
 
 // Obtener un evento por su id
 const obtenerEvento = async (req, res, next) => {
-  const evento = await getEvento(req.params.id);
+  const evento = await getEventos(req.params.id);
   if (evento == null) {
     return res.status(404).json({ mensaje: "Evento no encontrado" });
   }

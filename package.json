@@ -1,15 +1,17 @@
 {
   "name": "back-end-eventapp",
   "version": "1.0.0",
-  "description": "",
+  "description": "Integrantes",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "author": "los bkns",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "csb-inspector": "^0.3.2",
     "dotenv": "^16.0.3",
@@ -17,7 +19,15 @@
     "jsonwebtoken": "^9.0.0",
     "morgan-body": "^2.6.8",
     "pg": "^8.10.0",
-    "pg-format": "^1.0.4",
-    "sequelize": "^6.29.3"
-  }
+    "pg-format": "^1.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marksolidor/Event_app-Backend.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Marksolidor/Event_app-Backend/issues"
+  },
+  "homepage": "https://github.com/Marksolidor/Event_app-Backend#readme"
 }
