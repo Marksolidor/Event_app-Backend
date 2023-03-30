@@ -8,6 +8,7 @@ const morganBody = require('morgan-body');
 // Importar rutas
 const userRoutes = require('./src/routes/usersRoutes');
 const eventRoutes = require('./src/routes/eventsRoutes');
+const usuariosRoutes = require('./src/routes/usuariosRoutes');
 
 const pool = require('./src/database/db');
 const startDatabase = require('./src/database/startDatabase');
@@ -19,8 +20,8 @@ app.use(cors());
 
 // Agregar rutas a la instancia de app
 app.use('/users', userRoutes);
-app.use('/events', eventRoutes);
-
+// app.use('/events', eventRoutes);
+app.use('/usuarios', usuariosRoutes);
 
 startDatabase();
 
