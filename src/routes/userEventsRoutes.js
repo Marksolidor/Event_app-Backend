@@ -4,7 +4,7 @@ const pool = require("../database/db");
 const { validarToken } = require("../middlewares/authentication");
 
 // Agregar un usuario a un evento
-router.post("/", validarToken, async (req, res) => {
+router.post("/crearUserEvent", validarToken, async (req, res) => {
   try {
     const { id_usuario, id_evento } = req.body;
     const nuevoUsuarioEvento = await pool.query(
@@ -19,7 +19,7 @@ router.post("/", validarToken, async (req, res) => {
 });
 
 // Eliminar un usuario de un evento
-router.delete("/:id", validarToken, async (req, res) => {
+router.delete("/eliminarUserEvent", validarToken, async (req, res) => {
   try {
     const { id } = req.params;
     const eliminarUsuarioEvento = await pool.query(

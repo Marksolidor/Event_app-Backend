@@ -1,4 +1,5 @@
 const pool = require('../database/db');
+const { get } = require('../routes/usersRoutes');
 
 const eventModel = {};
 
@@ -6,7 +7,9 @@ const eventModel = {};
 eventModel.getEventos = async () => {
   const client = await pool.connect();
   try {
-    const { rows } = await client.query('SELECT * FROM events');
+    const { rows } = await client.query('SELECT * FROM eventos');
+    console.log(rows)
+    console.log("eventModel")
     return rows;
   } finally {
     client.release();

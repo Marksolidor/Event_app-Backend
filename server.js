@@ -21,6 +21,7 @@ app.use(cors());
 app.use('/users', userRoutes);
 app.use('/events', eventRoutes);
 
+
 startDatabase();
 
 app.listen(process.env.PORT, () => {

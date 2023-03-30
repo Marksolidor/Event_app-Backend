@@ -4,7 +4,7 @@
   "description": "Integrantes",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon server.js"
   },
   "author": "los bkns",
@@ -19,7 +19,8 @@
     "jsonwebtoken": "^9.0.0",
     "morgan-body": "^2.6.8",
     "pg": "^8.10.0",
-    "pg-format": "^1.0.4"
+    "pg-format": "^1.0.4",
+    "supertest": "^6.3.3"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,8 @@
   "bugs": {
     "url": "https://github.com/Marksolidor/Event_app-Backend/issues"
   },
-  "homepage": "https://github.com/Marksolidor/Event_app-Backend#readme"
+  "homepage": "https://github.com/Marksolidor/Event_app-Backend#readme",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
 }

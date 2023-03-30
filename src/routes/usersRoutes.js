@@ -3,15 +3,15 @@ const router = express.Router();
 const usuarioController = require("../controllers/userController");
 const auth = require("../middlewares/authentication");
 
-// Registrar un usuario
-router.post("/", async (req, res) => {
-  try {
-    await usuarioController.registrarUsuario(req, res);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Hubo un error al registrar el usuario");
-  }
-});
+// // Registrar un usuario
+// router.post("/", async (req, res) => {
+//   try {
+//     await usuarioController.crearUsuario(req, res);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send("Hubo un error al registrar el usuario");
+//   }
+// });
 
 // Iniciar sesión de un usuario
 router.post("/login", async (req, res) => {
@@ -25,8 +25,20 @@ router.post("/login", async (req, res) => {
 
 // Obtener información del usuario autenticado
 router.get("/", auth, async (req, res) => {
+  // try {
+  //   await usuarioController.obtenerUsuariosAutentificado(req, res);
+  // } catch (error) {
+  //   console.log(error);
+  //   res.status(500).send("Hubo un error al obtener información del usuario");
+  // }
+  console.log("usuario")
+  res.json({ mensaje: "conectado" });
+});
+
+// Obtener información de un usuario por su ID
+router.get("/:id", auth, async (req, res) => {
   try {
-    await usuarioController.obtenerUsuarioAutenticado(req, res);
+    await usuarioController.obtenerUsuarioPorId(req, res);
   } catch (error) {
     console.log(error);
     res.status(500).send("Hubo un error al obtener información del usuario");

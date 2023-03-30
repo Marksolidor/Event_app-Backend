@@ -21,7 +21,7 @@ const crearUsuario = async (req, res) => {
   }
 };
 
-const loginUsuario = async (req, res) => {
+const iniciarSesion = async (req, res) => {
   try {
     const usuario = await Usuario.findOne({ email: req.body.email });
     if (!usuario) {
@@ -41,7 +41,7 @@ const loginUsuario = async (req, res) => {
   }
 };
 
-const obtenerUsuarios = async (req, res) => {
+const obtenerUsuariosAutentificado = async (req, res) => {
   try {
     const usuarios = await Usuario.find();
     res.json(usuarios);
@@ -87,8 +87,8 @@ const eliminarUsuario = async (req, res) => {
 
 module.exports = {
   crearUsuario,
-  loginUsuario,
-  obtenerUsuarios,
+  iniciarSesion,
+  obtenerUsuariosAutentificado,
   obtenerUsuarioPorId,
   actualizarUsuario,
   eliminarUsuario,

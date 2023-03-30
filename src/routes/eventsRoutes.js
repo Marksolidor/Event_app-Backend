@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Evento = require('../models/eventsModels');
+const Evento = require('./../models/eventsModels');
 
 async function getEvento(req, res, next) {
   let evento;
@@ -21,7 +21,7 @@ async function getEvento(req, res, next) {
 router.get('/', async (req, res) => {
   console.log('entreeeeeee');
   try {
-    const eventos = await Evento.find();
+    const eventos = await Evento.getEventos();
     res.json(eventos);
   } catch (error) {
     res.status(500).json({ message: error.message });
