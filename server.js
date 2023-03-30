@@ -20,7 +20,7 @@ app.use(cors());
 
 // Agregar rutas a la instancia de app
 app.use('/users', userRoutes);
-// app.use('/events', eventRoutes);
+app.use('/events', eventRoutes);
 app.use('/usuarios', usuariosRoutes);
 
 startDatabase();

@@ -1,5 +1,5 @@
 const { getEventos } = require("../models/eventsModels");
-const Evento = require("../models/eventsModels");
+const eventoService = require('../services/eventsService');
 
 // Obtener todos los eventos
 const obtenerEventos = async (req, res) => {
@@ -12,13 +12,19 @@ const obtenerEventos = async (req, res) => {
 };
 
 // Obtener un evento por su id
-const obtenerEvento = async (req, res, next) => {
-  const evento = await getEventos(req.params.id);
-  if (evento == null) {
-    return res.status(404).json({ mensaje: "Evento no encontrado" });
+const obtenerEvento = async (req, res) => {
+  try {
+    const evento = await eventoService.getEvento(req.params.id)
+    console.log('evento: ', evento);
+
+    if (!evento) {
+      return res.status(404).json({ message: 'Evento no encontrado' });
+    }
+
+    res.json(evento)
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
   }
-  res.evento = evento;
-  next();
 };
 
 // Crear un nuevo evento

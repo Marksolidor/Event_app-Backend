@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Evento = require('./../models/eventsModels');
 
+const eventoController = require('../controllers/eventsController');
+
 async function getEvento(req, res, next) {
   let evento;
   try {
@@ -29,9 +31,7 @@ router.get('/', async (req, res) => {
 });
 
 // Obtener un evento en particular
-router.get('/:id', getEvento, (req, res) => {
-  res.json(res.evento);
-});
+router.get('/:id', eventoController.obtenerEvento);
 
 // Crear un evento
 router.post('/', async (req, res) => {
@@ -83,7 +83,7 @@ router.patch('/:id', getEvento, async (req, res) => {
   }
   if (req.body.comuna != null) {
     res.evento.comuna = req.body.comuna;
-  }
+    }
   if (req.body.referencia != null) {
     res.evento.referencia = req.body.referencia;
   }

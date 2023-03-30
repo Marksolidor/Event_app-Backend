@@ -20,7 +20,7 @@ eventModel.getEventos = async () => {
 eventModel.getEventoById = async (id) => {
   const client = await pool.connect();
   try {
-    const { rows } = await client.query('SELECT * FROM events WHERE id=$1', [
+    const { rows } = await client.query('SELECT * FROM eventos WHERE id=$1', [
       id,
     ]);
     if (rows.length === 0) {
