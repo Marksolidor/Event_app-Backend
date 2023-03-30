@@ -1,6 +1,6 @@
 const request = require('supertest');
-const app = require('../app');
-const Evento = require('../src/models/eventsModels');
+const app = require('../../app');
+const Evento = require('../models/eventsModels');
 
 describe('GET /events/:id', () => {
   let server;
