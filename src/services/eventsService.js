@@ -1,15 +1,35 @@
-const Evento = require("../models/eventsModels");
+const Evento = require('../models/eventsModels');
 
-const getEvento = async (eventId) => {
-    const evento = await Evento.getEventoById(eventId);
+const getEventos = async () => {
+  const eventos = await Evento.getEventos();
+  return eventos;
+};
 
-    if (!evento) {
-      return null;
-    }
+const getEvento = async eventId => {
+  const evento = await Evento.getEventoById(eventId);
 
-    return evento;
-}
+  if (!evento) {
+    return null;
+  }
+
+  return evento;
+};
+
+const crearEvento = async eventoBody => {
+  const nuevoEvento = await Evento.createEvento(eventoBody);
+  return nuevoEvento;
+};
+
+const actualizarEvento = async (eventoId, eventoBody) => {
+  const eventoActualizado = await Evento.updateEvento(eventoId, eventoBody);
+  return eventoActualizado;
+};
+
+const eliminarEvento = async eventoId => {
+  const eventoEliminado = await Evento.deleteEvento(eventoId);
+  return eventoEliminado;
+};
 
 module.exports = {
-    getEvento,
+  getEvento,
 };

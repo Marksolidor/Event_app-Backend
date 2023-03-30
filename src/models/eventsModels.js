@@ -1,5 +1,4 @@
 const pool = require('../database/db');
-const { get } = require('../routes/usersRoutes');
 
 const eventModel = {};
 

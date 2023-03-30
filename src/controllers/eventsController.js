@@ -1,10 +1,9 @@
-const { getEventos } = require("../models/eventsModels");
 const eventoService = require('../services/eventsService');
 
 // Obtener todos los eventos
 const obtenerEventos = async (req, res) => {
   try {
-    const eventos = await Evento.find();
+    const eventos = await eventoService.getEventos();
     res.json(eventos);
   } catch (err) {
     res.status(500).json({ mensaje: err.message });
@@ -29,9 +28,22 @@ const obtenerEvento = async (req, res) => {
 
 // Crear un nuevo evento
 const crearEvento = async (req, res) => {
-  const evento = new Evento(req.body);
   try {
-    const nuevoEvento = await evento.save();
+    const payload = {
+      nombre_evento: req.body.nombre_evento,
+      fecha: req.body.fecha,
+      hora: req.body.hora,
+      tipo_evento: req.body.tipo_evento,
+      descripcion: req.body.descripcion,
+      imagen_evento: req.body.imagen_evento,
+      direccion: req.body.direccion,
+      comuna: req.body.comuna,
+      referencia: req.body.referencia,
+      comentario: req.body.comentario,
+      precio: req.body.precio,
+      usuario_id: req.body.usuario_id,
+    };
+    const nuevoEvento = await eventoService.crearEvento(payload);
     res.status(201).json(nuevoEvento);
   } catch (err) {
     res.status(400).json({ mensaje: err.message });
@@ -41,7 +53,7 @@ const crearEvento = async (req, res) => {
 // Actualizar un evento existente
 const actualizarEvento = async (req, res) => {
   try {
-    const eventoActualizado = await res.evento.set(req.body).save();
+    const eventoActualizado = await eventoService.actualizarEvento(req.params.id, req.body);
     res.json(eventoActualizado);
   } catch (err) {
     res.status(400).json({ mensaje: err.message });
@@ -51,7 +63,7 @@ const actualizarEvento = async (req, res) => {
 // Eliminar un evento
 const eliminarEvento = async (req, res) => {
   try {
-    await res.evento.remove();
+    const eventoEliminado = await eventoService.eliminarEvento(req.params.id);
     res.json({ mensaje: "Evento eliminado" });
   } catch (err) {
     res.status(500).json({ mensaje: err.message });
