@@ -13,11 +13,11 @@ const crearComentario = async (userId, eventoId, payload) => {
     throw new Error('event not found');
   }
 
-  const comentarioCreado = Comment.crearComentario({
-    id_usuario: userId,
-    id_evento: eventoId,
-    comentario: payload.comentario,
-  });
+  const comentarioCreado = await Comment.crearComentario(
+    Number(userId),
+    Number(eventoId),
+    payload.comentario,
+  );
 
   return comentarioCreado;
 };
