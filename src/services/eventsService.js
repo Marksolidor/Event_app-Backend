@@ -5,7 +5,7 @@ const getEventos = async () => {
   return eventos;
 };
 
-const getEvento = async eventId => {
+const getEvento = async (eventId) => {
   const evento = await Evento.getEventoById(eventId);
 
   if (!evento) {
@@ -15,7 +15,7 @@ const getEvento = async eventId => {
   return evento;
 };
 
-const crearEvento = async eventoBody => {
+const crearEvento = async (eventoBody) => {
   const nuevoEvento = await Evento.createEvento(eventoBody);
   return nuevoEvento;
 };
@@ -25,11 +25,15 @@ const actualizarEvento = async (eventoId, eventoBody) => {
   return eventoActualizado;
 };
 
-const eliminarEvento = async eventoId => {
+const eliminarEvento = async (eventoId) => {
   const eventoEliminado = await Evento.deleteEvento(eventoId);
   return eventoEliminado;
 };
 
 module.exports = {
+  getEventos,
   getEvento,
+  crearEvento,
+  actualizarEvento,
+  eliminarEvento,
 };
