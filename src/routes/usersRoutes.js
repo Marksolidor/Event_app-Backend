@@ -1,31 +1,16 @@
 const express = require('express');
 const router = express.Router();
-// const Usuario = require('./../models/usersModel');
+const Usuario = require('./../models/usersModel');
 
-// const usuarioController = require("../controllers/userController");
-const auth = require("../middlewares/authentication");
-
-// // Registrar un usuario
-// router.post("/", async (req, res) => {
-//   try {
-//     await usuarioController.crearUsuario(req, res);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("Hubo un error al registrar el usuario");
-//   }
-// });
-
-// Iniciar sesión de un usuario
-router.post("/login", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    await usuarioController.iniciarSesion(req, res);
+    const usuario = await Usuario.obtenerUsuarios;
+    res.json(usuario);
   } catch (error) {
-    console.log(error);
-    res.status(500).send("Hubo un error al iniciar sesión");
+    res.status(500).json({ message: error.message });
   }
 });
 
-// Obtener información del usuario autenticado
 // router.get("/", auth, async (req, res) => {
 //   try {
 //     await usuarioController.obtenerUsuariosAutentificado(req, res);
@@ -35,38 +20,35 @@ router.post("/login", async (req, res) => {
 //   }
 // });
 
-// Obtener información de un usuario por su ID
-router.get("/:id", auth, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    // await usuarioController.obtenerUsuarioPorId(req, res);
-    // evento = await Evento.findById(req.params.id);
-    usuario = await Usuario.findById(req.params.id);
-    if (usuario == null) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
+    res.json({ message: 'obtener usuarios por id' });
   } catch (error) {
-    console.log(error);
-    res.status(500).send("Hubo un error al obtener información del usuario");
+    res.status(500).json({ message: error.message });
   }
 });
 
-// Actualizar información de un usuario
-router.put("/:id", auth, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    await usuarioController.actualizarUsuario(req, res);
+    res.json({ message: 'Crear nuevo usuario' });
   } catch (error) {
-    console.log(error);
-    res.status(500).send("Hubo un error al actualizar el usuario");
+    res.status(500).json({ message: error.message });
   }
 });
 
-// Eliminar un usuario
-router.delete("/:id", auth, async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
-    await usuarioController.eliminarUsuario(req, res);
+    res.json({ message: 'Actualizar usuario por id' });
   } catch (error) {
-    console.log(error);
-    res.status(500).send("Hubo un error al eliminar el usuario");
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    res.json({ message: 'Eliminar usuario por id' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

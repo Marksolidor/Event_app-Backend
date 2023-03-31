@@ -4,17 +4,17 @@ const Evento = require('../models/eventsModels');
 
 describe('GET /events/:id', () => {
   let server;
-  
+
   beforeAll(() => {
     server = app.listen();
   });
-  
+
   afterAll((done) => {
     server.close(done);
   });
 
   it('debe devolver un evento en particular', async () => {
-    const eventoMock = {nombre_evento: 'Evento 1'};
+    const eventoMock = { nombre_evento: 'Evento 1' };
     Evento.findById = jest.fn().mockResolvedValue(eventoMock);
 
     const res = await request(app).get('/events/123');

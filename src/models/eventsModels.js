@@ -7,8 +7,6 @@ eventModel.getEventos = async () => {
   const client = await pool.connect();
   try {
     const { rows } = await client.query('SELECT * FROM eventos');
-    console.log(rows)
-    console.log("eventModel")
     return rows;
   } finally {
     client.release();
