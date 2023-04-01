@@ -13,13 +13,6 @@ userModel.obtenerUsuarios = async () => {
   }
 };
 
-userModel.getUsuarioById = async (id) => {
-  const { rows } = await pool.query('SELECT * FROM usuarios WHERE id = $1', [
-    id,
-  ]);
-  return rows[0];
-};
-
 userModel.agregarUsuario = async (usuario) => {
   const { nombre, apellido, email, password, rol, rut, nickname } = usuario;
   const { rows } = await pool.query(
@@ -29,7 +22,7 @@ userModel.agregarUsuario = async (usuario) => {
   return rows[0];
 };
 
-userModel.createUser = async (usuario) => {
+userModel.crearUsuario = async (usuario) => {
   const { nombre, apellido, email, password, rol, rut, nickname } = usuario;
   const hashedPassword = await bcrypt.hash(password, 10);
   try {
@@ -43,7 +36,7 @@ userModel.createUser = async (usuario) => {
   }
 };
 
-userModel.findUserByEmail = async (email) => {
+userModel.buscarUsuarioPorEmail = async (email) => {
   try {
     const res = await pool.query('SELECT * FROM usuarios WHERE email = $1', [
       email,
@@ -55,3 +48,4 @@ userModel.findUserByEmail = async (email) => {
 };
 
 module.exports = userModel;
+
