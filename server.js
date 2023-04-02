@@ -1,11 +1,13 @@
+const express = require('express');
+const app = express();
+const startDatabase = require('./src/database/startDatabase');
+
 require('dotenv').config();
- 
- const app = require('./app');
- 
- const startDatabase = require('./src/database/startDatabase');
- 
- startDatabase();
- 
- app.listen(process.env.PORT, () => {
-   console.log('El servidor está en ejecución en el puerto 3000');
- });
+
+startDatabase();
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`El servidor está en ejecución en el puerto ${PORT}`);
+});
