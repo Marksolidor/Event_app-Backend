@@ -17,8 +17,6 @@ app.use(cors());
 app.use('/users', usersRoutes);
 app.use('/events', eventRoutes);
 app.use('/comments', commentsRoutes);
-app.use('/login', authRoutes);
-app.use('/register', authRoutes);
-app.use('/logout', authRoutes);
+app.use('/auth', authRoutes);
 
 module.exports = app;
