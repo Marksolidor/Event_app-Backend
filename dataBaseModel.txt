@@ -1,0 +1,75 @@
+Server [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Contraseña para usuario postgres:
+psql (15.2)
+ADVERTENCIA: El código de página de la consola (850) difiere del código
+            de página de Windows (1252).
+            Los caracteres de 8 bits pueden funcionar incorrectamente.
+            Vea la página de referencia de psql «Notes for Windows users»
+            para obtener más detalles.
+Digite «help» para obtener ayuda.
+
+postgres=# CREATE DATABASE eventap;
+CREATE DATABASE
+postgres=# \c eventap
+Ahora está conectado a la base de datos «eventap» con el usuario «postgres».
+eventap=# CREATE TABLE IF NOT EXISTS usuarios (
+eventap(# id SERIAL PRIMARY KEY,
+eventap(# nombre VARCHAR(50) NOT NULL,
+eventap(# apellido VARCHAR(50) NOT NULL,
+eventap(# email VARCHAR(100) NOT NULL UNIQUE,
+eventap(# password VARCHAR(100) NOT NULL,
+eventap(# fecha_creacion TIMESTAMP NOT NULL DEFAULT NOW(),
+eventap(# fecha_actualizacion TIMESTAMP NOT NULL DEFAULT NOW(),
+eventap(# rol VARCHAR(20) NOT NULL DEFAULT 'usuario',
+eventap(# rut VARCHAR(20) NOT NULL,
+eventap(# nickname VARCHAR(50) NOT NULL);
+CREATE TABLE
+eventap=# CREATE TABLE IF NOT EXISTS events (
+eventap(# id SERIAL PRIMARY KEY,
+eventap(# nombre_evento VARCHAR(56) NOT NULL,
+eventap(# fecha DATE NOT NULL,
+eventap(# hora TIME NOT NULL,
+eventap(# tipo_evento VARCHAR(20) NOT NULL,
+eventap(# descripcion TEXT,
+eventap(# imagen_evento VARCHAR(200)[],
+eventap(# direccion VARCHAR(100) NOT NULL,
+eventap(# comuna VARCHAR(50) NOT NULL,
+eventap(# referencia VARCHAR(100),
+eventap(# comentario TEXT,
+eventap(# precio NUMERIC(8,2),
+eventap(# likes INTEGER DEFAULT 0,
+eventap(# usuario_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,
+eventap(# fecha_creacion TIMESTAMP NOT NULL DEFAULT NOW(),
+eventap(# fecha_actualizacion TIMESTAMP NOT NULL DEFAULT NOW());
+CREATE TABLE
+eventap=# CREATE TABLE IF NOT EXISTS user_event (
+eventap(# id SERIAL PRIMARY KEY,
+eventap(# id_usuario INTEGER NOT NULL,
+eventap(# id_evento INTEGER NOT NULL,
+eventap(# fecha_creacion TIMESTAMP NOT NULL DEFAULT NOW(),
+eventap(# fecha_actualizacion TIMESTAMP NOT NULL DEFAULT NOW(),
+eventap(# FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE,
+eventap(# FOREIGN KEY (id_event) REFERENCES events(id) ON DELETE CASCADE);
+ERROR:  no existe la columna «id_event» referida en la llave foránea
+eventap=# CREATE TABLE IF NOT EXISTS user_event (
+eventap(# id SERIAL PRIMARY KEY,
+eventap(# id_usuario INTEGER NOT NULL,
+eventap(# id_evento INTEGER NOT NULL,
+eventap(# fecha_creacion TIMESTAMP NOT NULL DEFAULT NOW(),
+eventap(# fecha_actualizacion TIMESTAMP NOT NULL DEFAULT NOW(),
+eventap(# FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE,
+eventap(# FOREIGN KEY (id_evento) REFERENCES events(id) ON DELETE CASCADE);
+CREATE TABLE
+eventap=# CREATE TABLE IF NOT EXISTS comentarios (
+eventap(# id SERIAL PRIMARY KEY,
+eventap(# id_usuario INTEGER NOT NULL,
+eventap(# id_evento INTEGER NOT NULL,
+eventap(# comentario VARCHAR(500) NOT NULL,
+eventap(# fecha_creacion TIMESTAMP NOT NULL DEFAULT NOW(),
+eventap(# fecha_actualizacion TIMESTAMP NOT NULL DEFAULT NOW(),
+eventap(# FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE,
+eventap(# FOREIGN KEY (id_evento) REFERENCES events(id) ON DELETE CASCADE);
+CREATE TABLE
