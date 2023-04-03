@@ -1,12 +1,12 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // const Usuario = require("../models/usersModel");
-const Usuario = require('../models/usersModel');
+const {crearUsuario} = require('../models/usersModel');
 
 const crearUsuario = async (req, res) => {
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const usuario = new Usuario({
+    // const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const usuario = {
       nombre: req.body.name,
       apellido: req.body.lastName,
       email: req.body.email,
@@ -14,9 +14,9 @@ const crearUsuario = async (req, res) => {
       rol: req.body.rol,
       rut: req.body.rut,
       nickname: req.body.nickname,
-    });
-    await usuario.save();
-    res.status(201).json(usuario);
+    };
+    const newUsuario = crearUsuario(usuario)
+    res.status(201).json(newUsuario);
   } catch (err) {
     res.status(400).json({ mensaje: err.message });
   }
