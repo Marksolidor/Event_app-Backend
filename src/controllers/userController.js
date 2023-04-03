@@ -10,7 +10,7 @@ const crearUsuario = async (req, res) => {
       nombre: req.body.name,
       apellido: req.body.lastName,
       email: req.body.email,
-      password: hashedPassword,
+      password: req.body.password,
       rol: req.body.rol,
       rut: req.body.rut,
       nickname: req.body.nickname,
