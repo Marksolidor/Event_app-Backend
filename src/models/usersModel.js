@@ -22,7 +22,7 @@ const pool = require('../database/db');
 //   return rows[0];
 // };
 
-const crearUsuario = async (usuario) => {
+const crearUsuarios = async (usuario) => {
   const { nombre, apellido, email, password, rol, rut, nickname } = usuario;
   const hashedPassword = await bcrypt.hash(password, 10);
   try {
@@ -47,5 +47,5 @@ const crearUsuario = async (usuario) => {
 //   }
 // };
 
-module.exports = {crearUsuario};
+module.exports = {crearUsuarios};
 

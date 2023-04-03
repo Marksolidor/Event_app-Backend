@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // const Usuario = require("../models/usersModel");
-const {crearUsuario} = require('../models/usersModel');
+const {crearUsuarios} = require('../models/usersModel');
 
 const crearUsuario = async (req, res) => {
   try {
@@ -15,7 +15,7 @@ const crearUsuario = async (req, res) => {
       rut: req.body.rut,
       nickname: req.body.nickname,
     };
-    const newUsuario = crearUsuario(usuario)
+    const newUsuario = crearUsuarios(usuario)
     res.status(201).json(newUsuario);
   } catch (err) {
     res.status(400).json({ mensaje: err.message });
