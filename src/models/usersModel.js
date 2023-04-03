@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const pool = require('../database/db');
 
+
 // const userModel = {};
 
 // userModel.obtenerUsuarios = async () => {
@@ -13,6 +14,18 @@ const pool = require('../database/db');
 //   }
 // };
 
+const obtenerUsuarios = async () => {
+  const client = await pool.connect();
+  try {
+    const { rows } = await client.query('SELECT * FROM usuarios');
+    return rows;
+  } catch (err) {
+    throw new Error(`Error al obtener usuarios: ${err.message}`);
+  } finally {
+    client.release();
+  }
+};
+
 // userModel.agregarUsuario = async (usuario) => {
 //   const { nombre, apellido, email, password, rol, rut, nickname } = usuario;
 //   const { rows } = await pool.query(
@@ -21,6 +34,20 @@ const pool = require('../database/db');
 //   );
 //   return rows[0];
 // };
+
+const agregarUsuario = async (usuario) => {
+  const { nombre, apellido, email, password, rol, rut, nickname } = usuario;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    const res = await pool.query(
+      'INSERT INTO usuarios (nombre, apellido, email, password, rol, rut, nickname) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+      [nombre, apellido, email, hashedPassword, rol, rut, nickname],
+    );
+    return res.rows[0];
+  } catch (err) {
+    throw new Error(`Error al crear el usuario: ${err.message}`);
+  }
+};
 
 const crearUsuarios = async (usuario) => {
   const { nombre, apellido, email, password, rol, rut, nickname } = usuario;
@@ -46,6 +73,17 @@ const crearUsuarios = async (usuario) => {
 //     throw new Error(`Error al buscar el usuario: ${err.message}`);
 //   }
 // };
+const buscarUsuarioPorEmail = async (email) => {
+  const client = await pool.connect();
+  try {
+    const { rows } = await client.query('SELECT * FROM usuarios WHERE email = $1', [email]);
+    return rows[0];
+  } catch (err) {
+    throw new Error(`Error al buscar el usuario: ${err.message}`);
+  } finally {
+    client.release();
+  }
+};
 
-module.exports = {crearUsuarios};
+module.exports = {crearUsuarios, obtenerUsuarios, agregarUsuario, buscarUsuarioPorEmail};
 
