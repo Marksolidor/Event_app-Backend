@@ -9,7 +9,7 @@ const commentsRoutes = require('./src/routes/commentsRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 
 const app = express();
-
+morganBody(app);
 app.use(express.json());
 app.use(cors());
 
