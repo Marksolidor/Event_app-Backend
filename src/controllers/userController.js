@@ -1,14 +1,14 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 // const Usuario = require("../models/usersModel");
-const Usuario = require("../models/usersModel");
+const Usuario = require('../models/usersModel');
 
 const crearUsuario = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const usuario = new Usuario({
-      nombre: req.body.nombre,
-      apellido: req.body.apellido,
+      nombre: req.body.name,
+      apellido: req.body.lastName,
       email: req.body.email,
       password: hashedPassword,
       rol: req.body.rol,
@@ -26,14 +26,14 @@ const iniciarSesion = async (req, res) => {
   try {
     const usuario = await Usuario.findOne({ email: req.body.email });
     if (!usuario) {
-      return res.status(401).json({ mensaje: "Email o contraseña inválidos" });
+      return res.status(401).json({ mensaje: 'Email o contraseña inválidos' });
     }
     const isPasswordValid = await bcrypt.compare(
       req.body.password,
-      usuario.password
+      usuario.password,
     );
     if (!isPasswordValid) {
-      return res.status(401).json({ mensaje: "Email o contraseña inválidos" });
+      return res.status(401).json({ mensaje: 'Email o contraseña inválidos' });
     }
     const token = jwt.sign({ id: usuario._id }, process.env.JWT_SECRET);
     res.status(200).json({ token });
@@ -80,7 +80,7 @@ const actualizarUsuario = async (req, res) => {
 const eliminarUsuario = async (req, res) => {
   try {
     await res.usuario.remove();
-    res.json({ mensaje: "Usuario eliminado" });
+    res.json({ mensaje: 'Usuario eliminado' });
   } catch (err) {
     res.status(500).json({ mensaje: err.message });
   }
