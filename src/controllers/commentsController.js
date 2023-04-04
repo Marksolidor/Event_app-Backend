@@ -1,18 +1,13 @@
-const comentarioService = require('../services/commentService');
+const {createComment, eliminarComentario} = require('../models/commentsModel');
 
 const crearComentario = async (req, res) => {
   try {
     const { id_usuario, id_evento, comentario } = req.body;
-    const payload = {
+
+    const comentarioCreado = await createComment(
       id_usuario,
       id_evento,
       comentario,
-    };
-
-    const comentarioCreado = await comentarioService.crearComentario(
-      id_usuario,
-      id_evento,
-      payload,
     );
 
     res.status(201).json(comentarioCreado);
@@ -22,9 +17,9 @@ const crearComentario = async (req, res) => {
   }
 };
 
-const eliminarComentario = async (req, res) => {
+const deleteComment = async (req, res) => {
   try {
-    await comentarioService.eliminarComentario(req.params.id);
+    await eliminarComentario(req.params.id);
     res.json({ mensaje: 'El comentario ha sido eliminado' });
   } catch (err) {
     console.log(err);
@@ -34,5 +29,5 @@ const eliminarComentario = async (req, res) => {
 
 module.exports = {
   crearComentario,
-  eliminarComentario,
+  deleteComment
 };

@@ -1,15 +1,10 @@
-const UserEvent = require("../models/userEventModels");
+const { userEvent, removeUserEvent } = require("../models/userEventModel");
 
 const crearUserEvent = async (req, res) => {
-  const { id_usuario, id_evento } = req.body;
-  const newUserEvent = new UserEvent({
-    id_usuario,
-    id_evento,
-  });
-
   try {
-    const userEventCreada = await newUserEvent.save();
-    res.status(201).json(userEventCreada);
+  const payload = req.body;
+  const newUserEvent = await userEvent(payload);
+    res.status(201).json(newUserEvent);
   } catch (err) {
     res.status(400).json({ mensaje: err.message });
   }
@@ -17,7 +12,7 @@ const crearUserEvent = async (req, res) => {
 
 const eliminarUserEvent = async (req, res) => {
   try {
-    await res.userEvent.remove();
+    await removeUserEvent(req.params.id);
     res.json({ mensaje: "La relación usuario-evento ha sido eliminada" });
   } catch (err) {
     res.status(500).json({ mensaje: err.message });

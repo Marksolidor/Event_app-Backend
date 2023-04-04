@@ -1,8 +1,6 @@
 const pool = require('../database/db');
 
-const commentModel = {};
-
-commentModel.crearComentario = async (id_usuario, id_evento, comentario) => {
+const createComment = async (id_usuario, id_evento, comentario) => {
   const client = await pool.connect();
   try {
     const { rows } = await client.query(
@@ -10,12 +8,12 @@ commentModel.crearComentario = async (id_usuario, id_evento, comentario) => {
       [id_usuario, id_evento, comentario],
     );
     return rows[0];
-  } finally {
-    client.release();
+  } catch (err) {
+    console.log(err);
   }
 };
 
-commentModel.eliminarComentario = async (id) => {
+const eliminarComentario = async (id) => {
   const client = await pool.connect();
   try {
     const { rows } = await client.query(
@@ -31,4 +29,4 @@ commentModel.eliminarComentario = async (id) => {
   }
 };
 
-module.exports = commentModel;
+module.exports = { createComment, eliminarComentario};

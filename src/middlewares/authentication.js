@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Usuario = require('../models/usersModel');
+const { obtenerUsuarioPorIds } = require('../models/usersModel');
 
 const authentication =
   (admin = false) =>
@@ -7,7 +7,7 @@ const authentication =
     try {
       const token = req.header('Authorization').replace('Bearer ', '');
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const usuario = await Usuario.findById(decoded.id);
+      const usuario = await obtenerUsuarioPorIds(decoded.id);
 
       if (!usuario) {
         return res.status(401).json({ mensaje: 'Por favor inicia sesión' });
@@ -26,4 +26,4 @@ const authentication =
     }
   };
 
-module.exports = authentication;
+module.exports = {authentication};

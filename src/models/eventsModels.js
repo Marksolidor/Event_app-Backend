@@ -3,10 +3,10 @@ const pool = require('../database/db');
 const eventModel = {};
 
 // Obtener todos los eventos
-eventModel.getEventos = async () => {
+const getEventos = async () => {
   const client = await pool.connect();
   try {
-    const { rows } = await client.query('SELECT * FROM eventos');
+    const { rows } = await client.query('SELECT * FROM events');
     return rows;
   } finally {
     client.release();
@@ -14,10 +14,10 @@ eventModel.getEventos = async () => {
 };
 
 // Obtener un evento por su id
-eventModel.getEventoById = async (id) => {
+const getEventoById = async (id) => {
   const client = await pool.connect();
   try {
-    const { rows } = await client.query('SELECT * FROM eventos WHERE id=$1', [
+    const { rows } = await client.query('SELECT * FROM events WHERE id=$1', [
       id,
     ]);
     if (rows.length === 0) {
@@ -30,11 +30,11 @@ eventModel.getEventoById = async (id) => {
 };
 
 // Crear un nuevo evento
-eventModel.createEvento = async (evento) => {
+const createEvento = async (evento) => {
   const client = await pool.connect();
   try {
     const { rows } = await client.query(
-      'INSERT INTO eventos (nombre_evento, fecha, hora, tipo_evento, descripcion, imagen_evento, direccion, comuna, referencia, comentario, precio, usuario_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
+      'INSERT INTO events (nombre_evento, fecha, hora, tipo_evento, descripcion, imagen_evento, direccion, comuna, referencia, comentario, precio, usuario_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
       [
         evento.nombre_evento,
         evento.fecha,
@@ -57,12 +57,12 @@ eventModel.createEvento = async (evento) => {
 };
 
 // Actualizar un evento existente
-eventModel.updateEvento = async (id, evento) => {
+const updateEvento = async (id, evento) => {
   const client = await pool.connect();
   try {
     const { rows } = await client.query(
       `
-         UPDATE public.eventos
+         UPDATE public.events
          SET
            nombre_evento=$1
            , fecha=$2
@@ -108,11 +108,11 @@ eventModel.updateEvento = async (id, evento) => {
 };
 
 // Eliminar un evento
-eventModel.deleteEvento = async (id) => {
+const deleteEvento = async (id) => {
   const client = await pool.connect();
   try {
     const { rows } = await client.query(
-      'DELETE FROM eventos WHERE id=$1 RETURNING *',
+      'DELETE FROM events WHERE id=$1 RETURNING *',
       [id],
     );
     if (rows.length === 0) {
@@ -124,4 +124,4 @@ eventModel.deleteEvento = async (id) => {
   }
 };
 
-module.exports = eventModel;
+module.exports = { getEventos, getEventoById, updateEvento, deleteEvento, createEvento};

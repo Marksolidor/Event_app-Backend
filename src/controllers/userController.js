@@ -1,21 +1,21 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {crearUsuarios} = require("../models/usersModel");
+const {agregarUsuario, eliminarUsuarios, actualizarUsuarios, obtenerUsuarioPorIds} = require("../models/usersModel");
 
 
 const crearUsuario = async (req, res) => {
   try {
     // const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const usuario = {
-      nombre: req.body.name,
-      apellido: req.body.lastName,
+      nombre: req.body.nombre,
+      apellido: req.body.apellido,
       email: req.body.email,
       password: req.body.password,
       rol: req.body.rol,
       rut: req.body.rut,
       nickname: req.body.nickname,
     };
-    const newUsuario = crearUsuarios(usuario)
+    const newUsuario = agregarUsuario(usuario)
     res.status(201).json(newUsuario);
   } catch (err) {
     res.status(400).json({ mensaje: err.message });
@@ -53,7 +53,8 @@ const obtenerUsuariosAutentificado = async (req, res) => {
 
 const obtenerUsuarioPorId = async (req, res) => {
   try {
-    res.json(res.usuario);
+    const usuario = await obtenerUsuarioPorIds(req.params.id);
+    res.json(usuario);
   } catch (err) {
     res.status(500).json({ mensaje: err.message });
   }
@@ -62,16 +63,18 @@ const obtenerUsuarioPorId = async (req, res) => {
 const actualizarUsuario = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const usuario = res.usuario;
-    usuario.nombre = req.body.nombre;
-    usuario.apellido = req.body.apellido;
-    usuario.email = req.body.email;
-    usuario.password = hashedPassword;
-    usuario.rol = req.body.rol;
-    usuario.rut = req.body.rut;
-    usuario.nickname = req.body.nickname;
-    await usuario.save();
-    res.json(usuario);
+    const usuario = {
+    id : req.params.id,  
+    nombre : req.body.nombre,
+    apellido : req.body.apellido,
+    email : req.body.email,
+    password : hashedPassword,
+    rol : req.body.rol,
+    rut : req.body.rut,
+    nickname : req.body.nickname
+    };
+    const updateUsuario = await actualizarUsuarios(usuario)
+    res.json(updateUsuario);
   } catch (err) {
     res.status(400).json({ mensaje: err.message });
   }
@@ -79,12 +82,13 @@ const actualizarUsuario = async (req, res) => {
 
 const eliminarUsuario = async (req, res) => {
   try {
-    await res.usuario.remove();
+    await eliminarUsuarios(req.params.id);
     res.json({ mensaje: 'Usuario eliminado' });
   } catch (err) {
     res.status(500).json({ mensaje: err.message });
   }
 };
+
 
 module.exports = {
   crearUsuario,
